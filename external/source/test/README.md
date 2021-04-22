@@ -78,19 +78,18 @@ You can set these environment variables to configure the test suite:
                   "centos-8-stream"
                   "debian-stable"
                   "debian-testing"
-                  "fedora-32"
                   "fedora-33"
+                  "fedora-34"
                   "fedora-coreos"
                   "fedora-testing"
-                  "rhel-7-9"
-                  "rhel-8-3"
-                  "rhel-8-3-distropkg"
                   "rhel-8-4"
                   "rhel-8-4-distropkg"
-                  "rhel-atomic"
+                  "rhel-8-5"
+                  "rhel-8-5-distropkg"
+                  "rhel-9-0"
                   "ubuntu-2004"
                   "ubuntu-stable"
-               "fedora-32" is the default (bots/machine/machine_core/constants.py)
+               "fedora-33" is the default (bots/machine/machine_core/constants.py)
 
     TEST_JOBS  How many tests to run in parallel.  The default is 1.
 
@@ -105,6 +104,9 @@ You can set these environment variables to configure the test suite:
 
     TEST_SHOW_BROWSER  Set to run browser interactively. When not specified,
                        browser is run in headless mode.
+
+    TEST_TIMEOUT_FACTOR Scale normal timeouts by given integer. Useful for
+                        slow/busy testbeds or architectures.
 
 ## Test machines and their images
 
@@ -160,13 +162,6 @@ But they don't have a separate "prepare" step/script; instead, the first time
 you run `test/containers/run-tests` you need to use the `-i` option to
 build/install cockpit into the test VM. This needs to be done with a compatible
 `TEST_OS` (usually a recent `fedora-*`).
-
-### Selenium tests
-The third class of integration tests use avocado and selenium to cover
-different browsers.
-
-For more details on how to run and debug these tests see [selenium hacking guide](./selenium/README.md)
-
 
 ## Debugging tests
 
