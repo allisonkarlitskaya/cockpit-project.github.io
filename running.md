@@ -11,16 +11,26 @@ If you already have Cockpit on your server, point your web browser to:
 
 Use your system user account and password to log in. See [the guide](guide/latest/guide.html) for more info.
 
+After installing Cockpit itself, consider [installing additional applications in Cockpit](applications.html).
+
 ## Recommended client browsers
 
 {% capture icon %}{:.browser-0}![](/images/site/browser-0.svg){% endcapture %}
+{% capture label %}<span class="browser-name">0</span>{% endcapture %}
 
-Cockpit is developed for and routinely tested with:
+Cockpit is developed with and has automated tests for:
 
 {:.browser-support}
-- {{icon | replace: "0", "firefox"}} Mozilla Firefox
-- {{icon | replace: "0", "chrome"}} Google Chrome
-- {{icon | replace: "0", "edge"}} Microsoft Edge
+- {{icon | replace: "0", "firefox"}}{{label | replace: "0", "Mozilla Firefox"}}
+- {{icon | replace: "0", "chrome"}}{{label | replace: "0", "Google Chrome"}}
+
+Cockpit is also periodically checked with:
+
+{:.browser-support}
+- {{icon | replace: "0", "edge"}}{{label | replace: "0", "Microsoft Edge"}}
+- {{icon | replace: "0", "safari"}}{{label | replace: "0", "Apple Safari"}}
+  _[iPhones, iPads, and macOS on ARM/M1 may require a workaround]({{ site.baseurl }}/running/safari.html)_{:.note-safari}
+- {{icon | replace: "0", "epiphany"}}{{label | replace: "0", "GNOME Web (Epiphany)"}}
 
 <div id="browser-support">
   <div class="is-supported">
@@ -53,11 +63,11 @@ The following browsers (and up) _may_ also work with Cockpit:
   }} {{
   browser.name
   }} {%
-  assign ver_caniuse = site.data.browser_support["browsers"][slug]
+  assign ver_caniuse = site.data.browser_support["browsers"][slug] | plus: 0
   %}{%
   assign ver_caniuse_float = ver_caniuse | plus: 0
   %}{%
-    if (browser.version > ver_caniuse_float)
+    if browser.version > ver_caniuse_float
   %}{{
     browser.version
   }}{% else %}{{
@@ -164,20 +174,6 @@ The standard Fedora CoreOS image does not contain Cockpit packages.
 _Steps 3 and 4 are optional if the CoreOS machine will only be connected to from another host running Cockpit._
 
 Afterward, use a web browser to log into port `9090` on your host IP address as usual.
-
-
-### Project Atomic
-{:#atomic}
-
-**Connect to an Atomic Host from another instance of Cockpit** with the _Add Server_ dashboard UI.
-
-Alternatively you can access Cockpit directly on the Atomic Host if SSH password authentication is enabled:
-
-1. Run the Cockpit web service container: 
-```
-sudo atomic install cockpit/ws
-sudo atomic run cockpit/ws
-```
 
 
 ### CentOS

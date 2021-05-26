@@ -7,6 +7,7 @@
 {% assign summary_length = site.blog_summary_length | default: 50 %}
 {% assign ignore = include.ignore | default: site.blog_ignore | split: ',' %}
 {% assign summary_headings = site.blog_summary_headings %}
+{% assign heading_summary = include.heading_summary %}
 {% assign newline = '
 ' %}
 
@@ -41,6 +42,20 @@
       <time class="published" datetime="{{ post.date | date: "%u" }}">
         {{ post.date | date: "%b %-d, %Y" }}
       </time>
+
+      {% if post.category %}
+        {% assign cat_path = "/blog/category/" | append: post.category %}
+        {% assign cat_url = site.baseurl | append: cat_path | append: ".html" %}
+        {% assign cat_page = site.html_pages | where: 'url', cat_path | first %}
+
+        <div class="category">
+          {% if cat_page.path %}
+            category: <a href="{{ cat_url }}">{{ post.category }}</a>
+          {% else %}
+            category: {{ post.category }}
+          {% endif %}
+        </div>
+      {% endif %}
     </header>
   </header>
 
@@ -76,7 +91,7 @@
 
   <section class="post-content entry-content">
     {% if excerpt %}
-      {% if summary_headings and content_headings != '' %}
+      {% if summary_headings and content_headings != '' and heading_summary %}
         {{ content_headings | markdownify }}
       {% else %}
         {{ content_stripped | truncatewords: summary_length }}

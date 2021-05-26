@@ -60,7 +60,7 @@ promise
     .then((new_content, new_tag) =&gt; { ... })
     .catch(error =&gt; { ... })
 
-file.watch((content, tag, [error]) =&gt; { })
+file.watch((content, tag, [error]) =&gt; { }, [ { read: boolean } ])
 
 file.close()
 </pre>
@@ -227,6 +227,8 @@ cockpit.file("/path/to/file").modify(shout)
 </p>
 <pre class="programlisting">
 handle = file.watch(callback);
+
+handle_no_read = file.watch(callback, { read: false });
 </pre>
 <p>
       Whenever a change occurs, the <code class="code">callback()</code> is called with
@@ -235,10 +237,12 @@ handle = file.watch(callback);
       <code class="code">replace()</code>, and <code class="code">modify()</code>.</p>
 <p>When a read error occurs, the <code class="code">callback()</code> is called with
       an error as a third argument. Write errors are not reported via the watch callback.</p>
-<p>Calling <code class="code">watch()</code> will also automatically call
-      <code class="code">read()</code> to get the initial content of the file.</p>
-<p>Thus, you normally don't need to call <code class="code">read()</code> at all when
-      using <code class="code">watch()</code>.</p>
+<p>Calling <code class="code">watch()</code> will also automatically call <code class="code">read()</code>
+      to get the initial content of the file. Thus, you normally don't need to call
+      <code class="code">read()</code> at all when using <code class="code">watch()</code>.</p>
+<p>To disable the automatic reading, e.g. for large files or unreadable
+      file system objects, set the <code class="code">read</code> option to <code class="code">false</code>. The first
+      <code class="code">content</code> argument of the callback will then always be <code class="code">null</code>.</p>
 <p>To free the resources used for monitoring, call <code class="code">handle.remove()</code>.</p>
 </div>
 <div class="refsection">
